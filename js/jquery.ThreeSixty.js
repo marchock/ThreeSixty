@@ -1,17 +1,47 @@
+/* TODO:
+ *
+ * remove skipFrameNumbers functionality 
+ *
+ *
+ *
+ *
+ */
+
+
 /*global undefined */
 
-// the semi-colon before function invocation is a safety net against concatenated
-// scripts and/or other plugins which may not be closed properly.
 ;(function ($, window, document, undefined) {
     'use strict';
     // Create the defaults once
     var pluginName = "ThreeSixty",
+
         defaults = {
-            propertyName: "value"
+
+            pixels: 48,
+
+            numberOfFrames: 20,
+
+            startOnFrameNumber: 20,
+
+            skipFrameNumbers: [13, 19],
+
+            lockPositions: [],
+
+            animation: true,
+
+            intro: {
+                direction: "LEFT_TO_RIGHT",
+                numberOfFramesToAnimate: 4,
+                animationFrameRate: 250
+            }
         },
+
         SWIPE_DIRECTION_ONE = "RIGHT_TO_LEFT", // if swiping left or right and the animation is animating in the oposite direction then
+        
         SWIPE_DIRECTION_TWO = "LEFT_TO_RIGHT",
+        
         ANIMATION_INCREASE_FRAME_RATE = 4,
+        
         ANIMATION_REDUCE_FRAME_NUMBER = 10;
 
     // The actual plugin constructor
@@ -30,6 +60,8 @@
 
             this.onStart = false;
 
+            this.counter = 0;
+
             // Apply all timers here
             this.timer = {
                 animate: null,
@@ -38,14 +70,89 @@
             };
 
 
-            this.setupEvents();
-            this.setupFrameAnimation();
+            if (this.isCanvasSupported() && this.settings.canvas) {
+                this.setUpCanvas();
+            } else {
+                this.createImages();
+            }
 
         },
 
+        createImages: function () {
+            var i = 0,
+                eof = this.settings.imageSrc.length;
 
-        setupFrameAnimation: function (obj, delegate) {
-            //this._delegate = delegate;
+            var img = {};
+
+            for (i = 0; i < eof; i += 1) {
+                img = document.createElement("img");
+                img.src = this.settings.imageSrc[i]
+                img.setAttribute("class", "car");
+                this.element.appendChild(img)
+            }
+
+            this.img = $(this.element).find("img");
+            this.setupEvents();
+            this.setupFrameAnimation();
+        },
+
+        setUpCanvas: function () {
+            $( this.element ).append( "<canvas class='img'></canvas>" );
+            this.cnvs = $( this.element ).find("canvas")[0];
+
+ 
+            this.context = this.cnvs.getContext('2d');
+
+            console.log(this.context);
+
+            this.img = [];
+
+            this.loadImage(this.settings.imageSrc[this.counter])
+            this.counter += 1;
+
+        },
+
+        loadImage: function (src) {
+            var imageObj = new Image(),
+                me = this;
+            imageObj.onload = function() {
+                me.storeImageData(this);
+            };
+            imageObj.src = src;;
+
+        },
+
+        storeImageData: function (data) {
+            this.img.push(data);
+
+            if (this.counter < this.settings.imageSrc.length) {
+                this.loadImage(this.settings.imageSrc[this.counter]);
+                this.counter += 1;
+
+            } else {
+                this.drawImage(this.img[0])
+                this.setupEvents();
+                this.setupFrameAnimation();    
+            }
+        },
+
+
+        drawImage: function (imageObj) {
+
+            this.context.clearRect(0, 0, this.cnvs.width, this.cnvs.height);
+
+            var w = this.getWidth(),
+                h = w / (imageObj.width / imageObj.height) 
+            
+            this.cnvs.height = h;
+            this.cnvs.width = w;
+
+            this.context.drawImage(imageObj, 0, 0, this.cnvs.width, h);
+        },
+
+
+        setupFrameAnimation: function (obj) {
+
             this.animationControl = this.template();
 
             for (var name in obj) {
@@ -64,16 +171,16 @@
 
         template: function () {
             return {
-                pixels: 48,
-                numberOfFrames: 12,
-                startOnFrameNumber: 1,
-                skipFrameNumbers: [],
-                lockPositions: [],
-                animation: true,
+                pixels: this.settings.pixels,
+                numberOfFrames: this.settings.numberOfFrames,
+                startOnFrameNumber: this.settings.startOnFrameNumber,
+                skipFrameNumbers: this.settings.skipFrameNumbers,
+                lockPositions: this.settings.lockPositions,
+                animation: this.settings.animation,
                 intro: {
-                    direction: "LEFT_TO_RIGHT",
-                    numberOfFramesToAnimate: 10,
-                    animationFrameRate: 250
+                    direction: this.settings.intro.direction,
+                    numberOfFramesToAnimate: this.settings.intro.numberOfFramesToAnimate,
+                    animationFrameRate: this.settings.intro.animationFrameRate
                 }
             }   
         },
@@ -128,7 +235,7 @@
                 this.createAnimationValues();
                 clearTimeout(this.animationTimer); 
             }
-            // this.triggerDelegateMethod("TAP_DOWN", this.frameNumber)  
+
             this.onTapPosition = x; 
         },
 
@@ -181,6 +288,7 @@
         },
 
         nextFrame: function () {
+
             if (this.directionTracker === "RIGHT_TO_LEFT") {
                 this.frameNumber = this.frameNumber < this.animationControl.numberOfFrames ? this.frameNumber += 1 : 1;
 
@@ -197,12 +305,14 @@
             }
 
             this.previousFrame = !this.previousFrame ? this.frameNumber : this.previousFrame;
-            //this.triggerDelegateMethod("FRAME_NUMBER", this.frameNumber) 
 
-            //this.imgElements[0].addClassName("car" + this.frameNumber);
-            //this.imgElements[0].removeClassName("car" + this.previousFrame);
-            $(".img-container").removeClass("car" + this.previousFrame);
-            $(".img-container").addClass("car" + this.frameNumber);
+            if (this.isCanvasSupported() && this.settings.canvas) {
+                this.drawImage(this.img[(this.frameNumber-1)])
+            } else {
+                this.img[this.previousFrame-1].style.display = "none";
+                this.img[this.frameNumber-1].style.display = "block";
+            }
+
             this.previousFrame = this.frameNumber;   
         },
 
@@ -231,15 +341,12 @@
         frameSetUp: function (num) {
             this.frameNumber = num;
             this.previousFrame = num;
-            //this.imgElements = $(".img-container")//this.layer.querySelectorAll(".img-container");
 
-            //console.log(this.imgElements)
-
-            //$(this.imgElements[])
-
-            $(".img-container").addClass("car" + num);
-
-            //this.imgElements[0].className("car" + num);   
+            if (this.isCanvasSupported() && this.settings.canvas) {
+                //this.drawImage(this.img[num-1])
+            } else {
+                this.img[num-1].style.display = "block";
+            }  
         },
 
         skipSelectedAnimationFrames: function (b) {
@@ -305,6 +412,12 @@
         },
 
 
+        isCanvasSupported: function () {
+            var elem = document.createElement('canvas');
+            return !!(elem.getContext && elem.getContext('2d'));
+        },
+
+
         /*
          * Set-up events on first load 
          */
@@ -342,14 +455,28 @@
                 me.handleEvent(e);
             });
 
-
             /**
              * Event resize
              *
              */
-            // $(window).resize(function() {
-            //     me.resizeImage($(window).width());
-            // });
+            $(window).resize(function() {
+                
+                if (me.isCanvasSupported() && me.settings.canvas) {
+                    me.drawImage(me.img[(me.frameNumber-1)])
+                } 
+            });            
+        },
+
+        getWidth: function () {
+            var w;
+
+            if (this.settings.getWidthFrom) {
+                w = $(this.settings.getWidthFrom).width();
+            } else {
+                w = $(".three-sixty").width();
+            }
+            
+            return w;
         }
     });
 

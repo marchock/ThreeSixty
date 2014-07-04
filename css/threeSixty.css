@@ -1,52 +1,31 @@
 
-
-
-/* CAR ANIMATION STYLES 
-------------------------------------------------------------------------------*/
 .three-sixty {
-	height: 654px;
-	overflow: hidden;
-	position: absolute;
-	top: 0px;
-	width: 1024px;
-	z-index: 2;   
 	-webkit-transform:translate3d(0,0,0);
+	overflow: hidden;
+	width: 100%;
 }
-
-#exterior #hit-area.inactive {
-	pointer-events: none;
-}
-
-.img-container.car1 .sprite-10 { left: 0px; opacity: 0.99 }
-.img-container.car2 .sprite-10 { left: -1024px; opacity: 0.99 }
-.img-container.car3 .sprite-9 { left: 0px; opacity: 0.99 }
-.img-container.car4 .sprite-9 { left: -1024px; opacity: 0.99 }
-.img-container.car5 .sprite-8 { left:  0px; opacity: 0.99 }
-.img-container.car6 .sprite-8 { left: -1024px; opacity: 0.99 }
-.img-container.car7 .sprite-7 { left: 0px; opacity: 0.99 }
-.img-container.car8 .sprite-7 { left: -1024px; opacity: 0.99 }
-.img-container.car9 .sprite-6 { left: 0px; opacity: 0.99 }
-.img-container.car10 .sprite-6 { left: -1024px; opacity: 0.99 }
-.img-container.car11 .sprite-5 { left: 0px; opacity: 0.99 }
-.img-container.car12 .sprite-5 { left: -1024px; opacity: 0.99 }
-.img-container.car13 .sprite-4 { left: 0px; opacity: 0.99 }
-.img-container.car14 .sprite-4 { left: -1024px; opacity: 0.99 }
-.img-container.car15 .sprite-3 { left: 0px; opacity: 0.99 }
-.img-container.car16 .sprite-3 { left: -1024px; opacity: 0.99 }
-.img-container.car17 .sprite-2 { left: 0px; opacity: 0.99 }
-.img-container.car18 .sprite-2 { left: -1024px; opacity: 0.99 }
-.img-container.car19 .sprite-1 { left: 0px; opacity: 0.99 }
-.img-container.car20 .sprite-1 { left: -1024px; opacity: 0.99 }   
 
 .car {
-	height: 654px;
-	image-rendering: -webkit-optimize-contrast; 
-	left: 0px;
-	margin: 0px;      
-	position: absolute;
-	top: 0px;
-	width: 2048px;
-	opacity: 0.0001;
-	-webkit-transform:translate3d(0,0,0);
+	display: none;
+	height: 100%;
+	image-rendering: -webkit-optimize-contrast;     
 	pointer-events: none;
+	width: 100%;
+
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+.img {
+	pointer-events: none;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 }

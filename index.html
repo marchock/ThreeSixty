@@ -15,20 +15,7 @@
 	</head>
 	<body>
 
-		<div class="three-sixty">
-			<div class="img-container">
-				<img src="img/car/exterior-sprite-01-02.jpg" class="car sprite-1" />
-				<img src="img/car/exterior-sprite-03-04.jpg" class="car sprite-2" />  
-				<img src="img/car/exterior-sprite-05-06.jpg" class="car sprite-3" />  
-				<img src="img/car/exterior-sprite-07-08.jpg" class="car sprite-4" />
-				<img src="img/car/exterior-sprite-09-10.jpg" class="car sprite-5" />
-				<img src="img/car/exterior-sprite-11-12.jpg" class="car sprite-6" />  
-				<img src="img/car/exterior-sprite-13-14.jpg" class="car sprite-7" />  
-				<img src="img/car/exterior-sprite-15-16.jpg" class="car sprite-8" />
-				<img src="img/car/exterior-sprite-17-18.jpg" class="car sprite-9" />
-				<img src="img/car/exterior-sprite-19-20.jpg" class="car sprite-10" />   
-			</div>
-		</div>
+		<div class="three-sixty"></div>
 
         <script type="text/javascript"  src="js/lib/jquery-1.11.1.min.js"></script>
         <script type="text/javascript" src="js/jquery.ThreeSixty.js"></script>
@@ -41,27 +28,42 @@
 
                 $(".three-sixty").ThreeSixty({
 
-                    getDataFrom: "html-paging",
+                	canvas: true,
 
+                	imageSrc: [
+						"img/1.jpg",
+						"img/2.jpg",  
+						"img/3.jpg",  
+						"img/4.jpg",
+						"img/5.jpg",
+						"img/6.jpg",  
+						"img/7.jpg",  
+						"img/8.jpg",
+						"img/9.jpg",
+						"img/10.jpg",
+						"img/11.jpg",
+						"img/12.jpg",  
+						"img/13.jpg",  
+						"img/14.jpg",
+						"img/15.jpg",
+						"img/16.jpg",  
+						"img/17.jpg",  
+						"img/18.jpg",
+						"img/19.jpg",
+						"img/20.jpg"
+					],
 
+					numberOfFrames: 20,
+
+					startOnFrameNumber: 20,
+
+					intro: {
+						direction: "LEFT_TO_RIGHT",
+						numberOfFramesToAnimate: 4,
+						animationFrameRate: 250
+					}
                 });
             });
-
-
-
-
-  // var properties =  {
-  //   numberOfFrames: 20,
-  //   startOnFrameNumber: 20,
-  //   skipFrameNumbers: [13, 19],
-  //   intro: {
-  //     direction: "LEFT_TO_RIGHT",
-  //     numberOfFramesToAnimate: 4,
-  //     animationFrameRate: 250
-  //     }
-  //   }
-  // this.outlets.tapDetector.setupFrameAnimation(properties, this);  
-
 
         </script>
 	</body>
