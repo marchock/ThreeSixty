@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+	<meta charset="UTF-8">
+    <meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
+	<title>THREE SIXTY SWIPE</title>
+
+	<link href="css/normalize.css" media="screen, projection" rel="stylesheet" type="text/css" />
+	<link href="css/threeSixty.css" rel="stylesheet" type="text/css" />
+	<!--[if IE]>
+	  <link href="/stylesheets/ie.css" media="screen, projection" rel="stylesheet" type="text/css" />
+	<![endif]-->
+
+	</head>
+	<body>
+
+		<div class="three-sixty">
+			<div class="img-container">
+				<img src="img/car/exterior-sprite-01-02.jpg" class="car sprite-1" />
+				<img src="img/car/exterior-sprite-03-04.jpg" class="car sprite-2" />  
+				<img src="img/car/exterior-sprite-05-06.jpg" class="car sprite-3" />  
+				<img src="img/car/exterior-sprite-07-08.jpg" class="car sprite-4" />
+				<img src="img/car/exterior-sprite-09-10.jpg" class="car sprite-5" />
+				<img src="img/car/exterior-sprite-11-12.jpg" class="car sprite-6" />  
+				<img src="img/car/exterior-sprite-13-14.jpg" class="car sprite-7" />  
+				<img src="img/car/exterior-sprite-15-16.jpg" class="car sprite-8" />
+				<img src="img/car/exterior-sprite-17-18.jpg" class="car sprite-9" />
+				<img src="img/car/exterior-sprite-19-20.jpg" class="car sprite-10" />   
+			</div>
+		</div>
+
+        <script type="text/javascript"  src="js/lib/jquery-1.11.1.min.js"></script>
+        <script type="text/javascript" src="js/jquery.ThreeSixty.js"></script>
+
+
+        <script type="text/javascript">
+
+            $( document ).ready(function() {
+
+
+                $(".three-sixty").ThreeSixty({
+
+                    getDataFrom: "html-paging",
+
+
+                });
+            });
+
+
+
+
+  // var properties =  {
+  //   numberOfFrames: 20,
+  //   startOnFrameNumber: 20,
+  //   skipFrameNumbers: [13, 19],
+  //   intro: {
+  //     direction: "LEFT_TO_RIGHT",
+  //     numberOfFramesToAnimate: 4,
+  //     animationFrameRate: 250
+  //     }
+  //   }
+  // this.outlets.tapDetector.setupFrameAnimation(properties, this);  
+
+
+        </script>
+	</body>
+</html>
